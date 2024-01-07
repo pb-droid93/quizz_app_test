@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:quizz_app_test/answer_button.dart';
+import 'package:quizz_app_test/data/questions.dart';
+
+class QuestionsScreen extends StatefulWidget {
+  const QuestionsScreen({super.key});
+
+  @override
+  State<QuestionsScreen> createState() {
+    return _QuestionsScreenState();
+  }
+}
+
+class _QuestionsScreenState extends State<QuestionsScreen> {
+  @override
+  Widget build(context) {
+    final currentQuestion = questions[0];
+
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            currentQuestion.text,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+
+          // ... is an oprator to convert wiget inot list or list of wiget
+          ...currentQuestion.answers.map((answer) {
+            return AnswerButton(answerText: answer, onTap: () {});
+          })
+          // AnswerButton(
+          //   answerText: currentQuestion.answers[0],
+          //   onTap: () {},
+          // ),
+          // AnswerButton(
+          //   answerText: currentQuestion.answers[1],
+          //   onTap: () {},
+          // ),
+          // AnswerButton(
+          //   answerText: currentQuestion.answers[2],
+          //   onTap: () {},
+          // ),
+          // AnswerButton(
+          //   answerText: currentQuestion.answers[3],
+          //   onTap: () {},
+          // ),
+        ],
+      ),
+    );
+  }
+}
