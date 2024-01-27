@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quizz_app_test/questions_screen.dart';
 import 'package:quizz_app_test/start_screen.dart';
+import 'package:quizz_app_test/data/questions.dart';
+import 'package:quizz_app_test/result_screen.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -12,19 +14,24 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  List<String> selectedAnswer = [];
   var activeScreen = 'start-screen'; //another approach to call another screen
-
-  // @override
-  // void initState() {
-  //   activeScreen = StartScreen(switchScreen);
-  //   super.initState();
-  // }
 
   void switchScreen() {
     setState(() {
       activeScreen = 'questions-screen';
-      // activeScreen = const QuestionsScreen();
     });
+  }
+
+  void chooseAnswer(String answer) {
+    selectedAnswer.add(answer);
+
+    if (selectedAnswer.length == questions.length) {
+      setState(() {
+        //selectedAnswer = [];
+        activeScreen = 'result-screen';
+      });
+    }
   }
 
   @override
@@ -32,15 +39,23 @@ class _QuizState extends State<Quiz> {
     Widget screenWidget = StartScreen(switchScreen);
 
     if (activeScreen == 'questions-screen') {
-      screenWidget = const QuestionsScreen();
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    }
+
+    if (activeScreen == 'result-screen') {
+      screenWidget = ResultScreen(
+        chosenAnswer: selectedAnswer,
+      );
     }
     return MaterialApp(
       home: Scaffold(
         body: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(colors: [
-              Colors.purpleAccent,
-              Colors.grey,
+              Color.fromARGB(255, 70, 33, 136),
+              Color.fromARGB(255, 70, 33, 136),
             ], begin: Alignment.topLeft, end: Alignment.bottomRight),
           ),
           child: screenWidget, //another way tp switch b/w screen
